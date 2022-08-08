@@ -1,0 +1,18 @@
+# Ignore vim recovery files
+.*.swp
+*.bak
+
+# Ignore build artifacts
+**/build/**
+
+/dependencies.lock
+/managed_components/
+
+# Ignore the NVS prototypes
+/nvs*.bin
+/nvs*.csv
+
+/sdkconfig.old
+
+**/.nfs*
+**/.DS_Store

@@ -1,0 +1,6 @@
+[submodule "components/libnsgif"]
+	path = components/libnsgif
+	url = https://github.com/UncleRus/esp-idf-libnsgif.git
+[submodule "components/libwebp/libwebp"]
+	path = components/libwebp/libwebp
+	url = https://chromium.googlesource.com/webm/libwebp

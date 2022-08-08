@@ -1,0 +1,7 @@
+key,type,encoding,value
+NetManager,namespace,,
+ssid,data,string,WIFI_SSID_HERE
+password,data,string,WIFI_PASSWD_HERE
+PixelMatrix,namespace
+endpoint,data,string,192.168.1.100
+port,data,u16,8080
