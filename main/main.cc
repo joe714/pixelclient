@@ -166,7 +166,6 @@ void app_main(void)
         animationStart(std::move(nyan));
     }
 
-
     gpio_pad_select_gpio(LED_BUILTIN);
     gpio_set_direction(LED_BUILTIN, GPIO_MODE_OUTPUT);
     gpio_set_level(LED_BUILTIN, 0);

@@ -9,6 +9,7 @@ public:
     std::string imageUri() const;
     const std::string& deviceUUID() const { return deviceUUID_; }
     const std::string& endpoint() const { return endpoint_; }
+    uint16_t port() const { return port_; }
 
 private:
     Config();

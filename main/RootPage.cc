@@ -36,7 +36,7 @@ esp_err_t
 RootPage::onGet(Request& req)
 {
     ESP_LOGI(TAG, "get");
-    char buf[66] = {};
+    char buf[129] = {};
     std::string resp = R"(
 <html>
   <head>
@@ -58,11 +58,13 @@ RootPage::onGet(Request& req)
       <tbody>
       )";
 
+    snprintf(buf, sizeof buf, "%s:%d", Config::instance().endpoint().c_str(),
+             Config::instance().port());
     resp.append("<tr><th>Device UUID</th><td>")
         .append(Config::instance().deviceUUID())
         .append("</td></tr>\n")
         .append("<tr><th>Endpoint</th><td>")
-        .append(Config::instance().endpoint())
+        .append(buf)
         .append("</td></tr>\n");
 
     uint8_t mac[6] ={};
