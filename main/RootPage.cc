@@ -1,4 +1,5 @@
 #include "RootPage.h"
+#include <esp_app_desc.h>
 #include <esp_https_ota.h>
 #include <esp_log.h>
 #include <esp_mac.h>

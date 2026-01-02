@@ -11,7 +11,7 @@
 #include "esp_event.h"
 #include "esp_http_client.h"
 #include "esp_websocket_client.h"
-#include "esp_app_format.h"
+#include "esp_app_desc.h"
 
 #include <NetManager.h>
 #include <HttpServer.h>
