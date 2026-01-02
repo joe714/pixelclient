@@ -11,6 +11,7 @@
 #include "esp_event.h"
 #include "esp_http_client.h"
 #include "esp_websocket_client.h"
+#include "esp_app_format.h"
 
 #include <NetManager.h>
 #include <HttpServer.h>
@@ -86,9 +87,26 @@ void wsEventHandler(void *args, esp_event_base_t base, int32_t eventId, void* ev
     user_ctx* ctx = (user_ctx*)data->user_context;
 
     switch (eventId) {
-        case WEBSOCKET_EVENT_CONNECTED:
+        case WEBSOCKET_EVENT_CONNECTED: {
             ESP_LOGI(TAG, "Websocket connected");
+
+            // Send device info to server
+            const esp_app_desc_t* app = esp_app_get_description();
+            char sha_hex[17] = {0};
+            for (int i = 0; i < 8; i++) {
+                sprintf(sha_hex + i*2, "%02x", app->app_elf_sha256[i]);
+            }
+
+            char json[512];
+            snprintf(json, sizeof(json),
+                "{\"device\":\"esp32\",\"version\":\"%s\",\"sha256\":\"%s\","
+                "\"compiled\":\"%s %s\",\"free-heap\":%lu}",
+                app->version, sha_hex, app->date, app->time,
+                (unsigned long)esp_get_free_heap_size());
+
+            esp_websocket_client_send_text(data->client, json, strlen(json), pdMS_TO_TICKS(5000));
             break;
+        }
         case WEBSOCKET_EVENT_DISCONNECTED:
             ESP_LOGI(TAG, "Websocket disconnected");
             break;
