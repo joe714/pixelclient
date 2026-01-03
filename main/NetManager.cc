@@ -29,6 +29,7 @@ startEventHandler(void* arg,
                  void* eventData)
 {
     if (eventBase == WIFI_EVENT) {
+        ESP_LOGI(TAG, "WIFI_EVENT");
         switch (eventId) {
         case WIFI_EVENT_STA_DISCONNECTED:
             ESP_LOGI(TAG, "Attempt reconnect");
@@ -39,9 +40,12 @@ startEventHandler(void* arg,
         default:
             break;
         }
-    } else if (eventBase == IP_EVENT && eventId == IP_EVENT_STA_GOT_IP) {
-        EventGroupHandle_t* egroup = static_cast<EventGroupHandle_t*>(arg);
-        xEventGroupSetBits(*egroup, WIFI_CONNECTED_BIT);
+    } else if (eventBase == IP_EVENT) {
+        ESP_LOGI(TAG, "IP_EVENT");
+        if (eventId == IP_EVENT_STA_GOT_IP) {
+            EventGroupHandle_t* egroup = static_cast<EventGroupHandle_t*>(arg);
+            xEventGroupSetBits(*egroup, WIFI_CONNECTED_BIT);
+        }
     }
 }
 
@@ -115,8 +119,13 @@ NetManager::start()
                                            pdFALSE,
                                            pdFALSE,
                                            portMAX_DELAY);
+    ESP_LOGI(TAG, "esp_wifi_complete()");
 
-    ESP_ERROR_CHECK(esp_event_handler_instance_unregister(IP_EVENT, IP_EVENT_STA_GOT_IP, ipEvent));
-    ESP_ERROR_CHECK(esp_event_handler_instance_unregister(IP_EVENT, IP_EVENT_STA_GOT_IP, wifiEvent));
+    ESP_ERROR_CHECK(esp_event_handler_instance_unregister(IP_EVENT,
+                                                          IP_EVENT_STA_GOT_IP,
+                                                          ipEvent));
+    ESP_ERROR_CHECK(esp_event_handler_instance_unregister(WIFI_EVENT,
+                                                          ESP_EVENT_ANY_ID,
+                                                          wifiEvent));
     vEventGroupDelete(eventGroup);
 }

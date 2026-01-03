@@ -210,7 +210,7 @@ void app_main(void)
     esp_websocket_client_config_t wsCfg = {};
     wsCfg.uri = uri.c_str();
     wsCfg.user_context = ctx;
-    wsCfg.buffer_size = 1024;
+    wsCfg.buffer_size = 0;
 
     ESP_LOGI(TAG, "Websocket Connect %s", uri.c_str());
     esp_websocket_client_handle_t client = esp_websocket_client_init(&wsCfg);
